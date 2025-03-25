@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>dev.franpelirrojo.nvimdrive</groupId>
+<artifactId>nvimdrive</artifactId>
+<version>v.0.8.0</version>
+
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>21</maven.compiler.release>
+</properties>
+
+<dependencies>
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.12.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Google API Client -->
+    <dependency>
+        <groupId>com.google.api-client</groupId>
+        <artifactId>google-api-client</artifactId>
+        <version>2.7.1</version>
+    </dependency>
+
+    <!-- Google Drive API -->
+    <dependency>
+        <groupId>com.google.apis</groupId>
+        <artifactId>google-api-services-drive</artifactId>
+        <version>v3-rev20240914-2.0.0</version>
+    </dependency>
+
+    <!-- OAuth 2.0 -->
+    <dependency>
+        <groupId>com.google.oauth-client</groupId>
+        <artifactId>google-oauth-client-jetty</artifactId>
+        <version>1.36.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.msgpack</groupId>
+        <artifactId>msgpack-core</artifactId>
+        <version>0.9.8</version>
+    </dependency>
+</dependencies>
+
+<build>
+    <plugins>
+        <plugin> <!-- Plugin para ejecutar el Jar automaticamente -->
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>dev.franpelirrojo.nvimdrive.Main</mainClass>
+            </configuration>
+        </plugin>
+        <plugin> <!-- Empaquetar en un JAR fat ejecutable -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.6.0</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <shadedArtifactAttached>false</shadedArtifactAttached>
+                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                        <minimizeJar>true</minimizeJar>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <mainClass>dev.franpelirrojo.nvimdrive.Main</mainClass>
+                            </transformer>
+                        </transformers>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+</project>
